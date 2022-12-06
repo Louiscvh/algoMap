@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import * as Leaflet from 'leaflet';
+import React from 'react'
 import styled from 'styled-components';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { personIcon, rdvIcon, restaurantIcon } from '../mapIcons';
 
 const MapStyled = styled.div`
   position: relative;
@@ -11,27 +11,34 @@ const MapStyled = styled.div`
       height: 100vh;
     }
 `
-
-const persons = {
-	"Nico": { "lat": 48.8527749863, "lon": 2.3353216052055 },
-	"Alex": { "lat": 48.858519522442, "lon": 2.3471194010479 },
-	"Chachat": { "lat": 48.8593, "lon": 2.3561 },
-};
-
-export default function Map({mapDatas}) {
-    
+export default function Map({restaurantsDatas, usersDatas}) {
+   
   return (
     <MapStyled>
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={[48.852969, 2.349903]} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {restaurantsDatas.map((restaurant, index) => (
+          <Marker key={index} icon={restaurantIcon} position={[restaurant.lat, restaurant.lon]}>
+            <Popup>
+              {restaurant.name}
+            </Popup>
+          </Marker>
+        ))}
+        {usersDatas.map((user, index) => (
+          <Marker key={index} icon={personIcon} position={[user.lat, user.lon]}>
+            <Popup>
+              {user.name}
+            </Popup>
+          </Marker>
+        ))}
+        <Marker icon={rdvIcon} position={[48.852969, 2.349903]} draggable={true}>
+            <Popup>
+              Rdv point
+            </Popup>
+          </Marker>
       </MapContainer>
     </MapStyled>
   )

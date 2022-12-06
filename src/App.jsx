@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const MAP_DATAS = [
+const RESTAURANTS_DATAS = [
   {
       name: "Restaurant 1 (Sorbone)",
       lat: 48.8510502823,
@@ -33,14 +33,32 @@ const MAP_DATAS = [
   },
 ];
 
+const USER_DATAS = [
+  {
+      name: "Nico",
+      lat: 48.8527749863,
+      lon: 2.3353216052055
+  },
+  {
+      name: "Alex",
+      lat: 48.858519522442,
+      lon: 2.3471194010479
+  },
+  {
+      name: "Chachat",
+      lat: 48.8593,
+      lon: 2.3561
+  },
+];
+
 export default function App() {
   return (
     <>
       <GlobalStyle />
       <AppStyle>
-        <Restaurants restaurants={MAP_DATAS}/>
-        <Map mapData={MAP_DATAS}/>
-        <Users />
+        <Restaurants restaurants={RESTAURANTS_DATAS}/>
+        <Map restaurantsDatas={RESTAURANTS_DATAS} usersDatas={USER_DATAS}/>
+        <Users users={USER_DATAS}/>
       </AppStyle>
     </>
 

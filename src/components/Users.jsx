@@ -9,14 +9,14 @@ const UsersStyled = styled.section`
   background-color: lightgray;
   padding: 1rem;
 `
-export default function Users() {
+export default function Users({users}) {
   return (
     <UsersStyled>
       <h2>Users</h2>
       <div>
-        <User name="Username"/>
-        <User name="Username"/>
-        <User name="Username"/>
+      {users.map((user, index) => (
+        <User key={index} name={user.name}/>
+      ))}
       </div>
     </UsersStyled>
   )
