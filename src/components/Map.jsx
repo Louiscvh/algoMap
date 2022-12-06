@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { personIcon, rdvIcon, restaurantIcon } from '../mapIcons';
 import L from 'leaflet'
-const { useRef } = React;
+const { useRef, useMemo, useState } = React;
 
 const MapStyled = styled.div`
   position: relative;
@@ -14,18 +14,40 @@ const MapStyled = styled.div`
     }
 `
 export default function Map({restaurantsDatas, usersDatas}) {
+	const center = {
+		lat: 48.852969,
+		lng:  2.349903,
+	};
+
   var fromLatLng = L.latLng([48.858519522442, 2.3471194010479]);
   var toLatLng = L.latLng([48.856389, 2.352222]);
+
+  const [position, setPosition] = useState(center)
   
   var dis = fromLatLng.distanceTo(toLatLng);
   console.log(Math.round(dis), "meters");
   const markerRef = useRef();
 
-  const updatePosition = () => {
-    console.log('prout')
-    const marker = markerRef.current
-    console.log(marker.getLatLng())
-  }
+//   const updatePosition = () => {
+//     console.log('prout')
+//     const marker = markerRef.current
+//     console.log(marker.getLatLng())
+//   }
+
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          setPosition(marker.getLatLng())
+		  console.log("position du rdv: ", setPosition(marker.getLatLng()))
+		  console.log("position du rdv: ", position)
+        }
+      },
+    }),
+    [],
+  )
+
   return (
     <MapStyled>
       <MapContainer center={[48.852969, 2.349903]} zoom={13} scrollWheelZoom={true}>
@@ -47,7 +69,7 @@ export default function Map({restaurantsDatas, usersDatas}) {
             </Popup>
           </Marker>
         ))}
-        <Marker icon={rdvIcon} position={[48.852969, 2.349903]} onDragend={updatePosition} ref={markerRef} draggable={true}>
+        <Marker icon={rdvIcon} position={position} eventHandlers={eventHandlers} ref={markerRef} draggable={true}>
             <Popup>
               Rdv point
             </Popup>
