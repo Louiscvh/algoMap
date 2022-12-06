@@ -9,9 +9,10 @@ const UsersStyled = styled.section`
   background-color: lightgray;
   padding: 1rem;
 `
-export default function Users({users}) {
+export default function Users({users, roomId}) {
   return (
     <UsersStyled>
+      <h1>Room {roomId}</h1>
       <h2>Users</h2>
       <div>
       {users.map((user, index) => (

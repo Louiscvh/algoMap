@@ -1,8 +1,9 @@
-import React, {useRef, useMemo, useState} from 'react'
+import React, {useRef, useMemo, useState, useEffect} from 'react'
 import styled from 'styled-components';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import { personIcon, rdvIcon, restaurantIcon } from '../mapIcons';
 import L from 'leaflet'
+import LocationMarker from './LocationMarker';
 
 const MapStyled = styled.div`
   position: relative;
@@ -12,7 +13,7 @@ const MapStyled = styled.div`
       height: 100vh;
     }
 `
-export default function Map({restaurantsDatas, usersDatas, setDistance}) {
+export default function Map({restaurantsDatas, usersDatas, setDistance, currentUserName, setUsers}) {
 
   const [dragPoint, setDragPoint] = useState([48.858519522442, 2.3471194010479])
 	const center = {
@@ -27,20 +28,9 @@ export default function Map({restaurantsDatas, usersDatas, setDistance}) {
 
   const limeOptions = { color: 'red' }
 
-  var fromLatLng = L.latLng([48.858519522442, 2.3471194010479]);
-  var toLatLng = L.latLng([48.856389, 2.352222]);
-
   const [position, setPosition] = useState(center)
-  
-  var dis = fromLatLng.distanceTo(toLatLng);
-  console.log(Math.round(dis), "meters");
+  const [currentPosition, setCurrentPosition] = useState(null)
   const markerRef = useRef();
-
-//   const updatePosition = () => {
-//     console.log('prout')
-//     const marker = markerRef.current
-//     console.log(marker.getLatLng())
-//   }
 
   const eventHandlers = useMemo(
     () => ({
@@ -49,13 +39,16 @@ export default function Map({restaurantsDatas, usersDatas, setDistance}) {
         const toLatLng = L.latLng([markerRef.current.getLatLng().lat, markerRef.current.getLatLng().lng]);
         const distance = fromLatLng.distanceTo(toLatLng)
         setDragPoint(toLatLng)
-        console.log(distance)
         setDistance(distance)
-        //setPosition(marker.getLatLng())
       },
     }),
     [setDistance],
   )
+
+  useEffect(() => {
+    if(currentPosition)
+      setUsers(current => [...current, {name: currentUserName, lat: currentPosition?.lat, lon: currentPosition?.lng }]);
+  }, [currentUserName, setUsers, usersDatas, currentPosition])
 
   return (
     <MapStyled>
@@ -83,6 +76,7 @@ export default function Map({restaurantsDatas, usersDatas, setDistance}) {
             Rdv point
           </Popup>
         </Marker>
+        <LocationMarker setCurrentPosition={setCurrentPosition}/>
         <Polyline pathOptions={limeOptions} positions={polyline} />
       </MapContainer>
     </MapStyled>
