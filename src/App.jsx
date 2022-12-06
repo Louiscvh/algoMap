@@ -3,6 +3,9 @@ import Map from './components/Map';
 import Users from './components/Users';
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
+import { useState } from 'react';
+import Distance from './components/Distance';
+import Chat from './components/Chat';
 
 const AppStyle = styled.main`
   display: flex;
@@ -52,13 +55,17 @@ const USER_DATAS = [
 ];
 
 export default function App() {
+
+  const [distance, setDistance] = useState(0)
   return (
     <>
       <GlobalStyle />
       <AppStyle>
         <Restaurants restaurants={RESTAURANTS_DATAS}/>
-        <Map restaurantsDatas={RESTAURANTS_DATAS} usersDatas={USER_DATAS}/>
+        <Map restaurantsDatas={RESTAURANTS_DATAS} usersDatas={USER_DATAS} setDistance={setDistance}/>
         <Users users={USER_DATAS}/>
+        <Distance distance={distance}/> 
+        <Chat />
       </AppStyle>
     </>
 
