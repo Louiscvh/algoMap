@@ -3,7 +3,12 @@ import Restaurant from './Restaurant';
 import styled from 'styled-components'
 
 const RestaurantsStyled = styled.section`
-    background-color: lightgray;
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem; 
+  z-index: 1;
+  padding: 1rem;
+  background-color: lightgray;
 `
 
 export default function Restaurants({restaurants}) {

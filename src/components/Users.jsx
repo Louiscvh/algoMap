@@ -3,7 +3,11 @@ import User from './User'
 import styled from 'styled-components'
 
 const UsersStyled = styled.section`
-    background-color: lightgray;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  background-color: lightgray;
+  padding: 1rem;
 `
 export default function Users() {
   return (

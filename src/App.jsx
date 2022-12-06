@@ -2,11 +2,18 @@ import Restaurants from './components/Restaurants';
 import Map from './components/Map';
 import Users from './components/Users';
 import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const AppStyle = styled.main`
   display: flex;
   justify-content: space-between;
 `
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 const MAP_DATAS = [
   {
@@ -28,10 +35,14 @@ const MAP_DATAS = [
 
 export default function App() {
   return (
-    <AppStyle>
-      <Restaurants restaurants={MAP_DATAS}/>
-      <Map mapData={MAP_DATAS}/>
-      <Users />
-    </AppStyle>
+    <>
+      <GlobalStyle />
+      <AppStyle>
+        <Restaurants restaurants={MAP_DATAS}/>
+        <Map mapData={MAP_DATAS}/>
+        <Users />
+      </AppStyle>
+    </>
+
   );
 }
