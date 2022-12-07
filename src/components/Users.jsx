@@ -6,13 +6,20 @@ const UsersStyled = styled.section`
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
-  background-color: lightgray;
+  background-color: white;
+  border-radius: 8px;
   padding: 1rem;
+  display: flex;
+  gap: 1rem;
+
+  & > div {
+    display: flex;
+    gap: 0.5rem;
+  }
 `
-export default function Users({users, roomId}) {
+export default function Users({users}) {
   return (
     <UsersStyled>
-      <h1>Room {roomId}</h1>
       <h2>Users</h2>
       <div>
       {users.map((user, index) => (

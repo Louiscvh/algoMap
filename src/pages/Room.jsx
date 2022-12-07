@@ -6,20 +6,21 @@ import { useState, useEffect } from 'react';
 import Distance from '../components/Distance';
 import Chat from '../components/Chat';
 import { useParams } from 'react-router-dom';
+import { capitalizeFirstLetter } from '../App';
 
 const RESTAURANTS_DATAS = [
   {
-      name: "Restaurant 1 (Sorbone)",
+      name: "Restaurant de la Sorbone",
       lat: 48.8510502823,
       lon: 2.3442733454214
   },
   {
-      name: "Restaurant 2 (Hotel de ville)",
+      name: "Restaurant de l'Hotel de ville",
       lat: 48.856389,
       lon: 2.352222
   },
   {
-      name: "Restaurant 3 (Pont)",
+      name: "Restaurant du Pont",
       lat: 48.85277,
       lon: 2.3575
   },
@@ -48,8 +49,8 @@ const USER_DATAS = [
 export default function Room() {
   const [distance, setDistance] = useState(0)
   const [users, setUsers] = useState(USER_DATAS)
-  let { userName, roomId } = useParams();
-    
+  let { userName } = useParams();
+
   return (
     <>
         <Restaurants restaurants={RESTAURANTS_DATAS}/>
@@ -57,11 +58,11 @@ export default function Room() {
             restaurantsDatas={RESTAURANTS_DATAS} 
             usersDatas={USER_DATAS} 
             setDistance={setDistance} 
-            currentUserName={userName} 
+            currentUserName={capitalizeFirstLetter(userName)} 
             setUsers={setUsers}/>
-        <Users users={users} roomId={roomId} />
+        <Users users={users} />
         <Distance distance={distance}/> 
-        <Chat currentUserName={userName}/>
+        <Chat currentUserName={capitalizeFirstLetter(userName)}/>
     </>
   )
 }

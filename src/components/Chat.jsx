@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import styled from "styled-components"
 
@@ -10,7 +10,8 @@ const ChatStyle = styled.div`
     right: 0.5rem;
     bottom: 0.5rem;
     z-index: 1;
-    background-color: lightgray;
+    background-color: white;
+    border-radius: 8px;
     padding: 1rem;
 
     #chat {
@@ -19,44 +20,69 @@ const ChatStyle = styled.div`
         background-color: white;
         padding: 0.5rem;
     }
+    form {
+      display: flex;
+      gap: 0.5rem;
+      input {
+          width: 100%;
+          background-color: #F1F1F1;
+          border-radius: 150px;
+          border: none;
+          padding: 0.5rem;
+          padding-left: 1rem;
+        }
+
+        button {
+          padding: 0.5rem 1rem;
+          border-radius: 150px;
+          border: none;
+          cursor: pointer;
+          will-change: background-color;
+          transition: background-color 0.3s ease;
+          &:hover {
+            background-color: #E2E2E2;
+          }
+        }
+    }
 `
 export default function Chat({currentUserName}) {
   const [messages, setMessages] = useState([])
   const [currentMessage, setCurrentMessage] = useState("")
+  const lastMessageRef = useRef(null);
 
   useEffect(() => {
     socket.on('serverMessage', (data) => {
         setMessages([...messages, {user: currentUserName, message: data}])
     });
+    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [socket, messages]);
 
-  console.log(messages)
   /**
    * Send a message to chat
    * @param {String} message 
    */
   const sendMessage = (e) => {
     e.preventDefault()
-    socket.emit('sendMessage', currentMessage);
-    setCurrentMessage('')
+    if(currentMessage.trim()) {
+      socket.emit('sendMessage', currentMessage);
+      setCurrentMessage('')
+    }
   }
 
   return (
     <ChatStyle>
       <div>
         <h2>Chat</h2>
-        {messages.length ? 
-            <div id="chat">
-                {messages.map((message, index) => (
-                    <div key={index}> 
-                        <h4>{message.user}</h4>
-                        <p>{message.message}</p>
-                    </div>
-                ))}
-            </div> 
-            : 
-            <p>Pas de messages</p>
-        }
+        <div id="chat">
+            {messages.map((message, index) => (
+              <div key={index}> 
+                <h4>{message.user}</h4>
+                <p>{message.message}</p>
+              </div>
+            ))}
+            <div ref={lastMessageRef} />
+        </div> 
+          
         <form onSubmit={(e) => sendMessage(e)}>
             <input type="text" value={currentMessage} onChange={(e) => setCurrentMessage(e.target.value)}></input>
             <button type='submit'>Envoyer</button>

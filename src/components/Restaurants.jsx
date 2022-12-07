@@ -8,13 +8,20 @@ const RestaurantsStyled = styled.section`
   top: 0.5rem; 
   z-index: 1;
   padding: 1rem;
-  background-color: lightgray;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  gap: 1rem;
+  & > div {
+    display: flex;
+    gap: 0.5rem;
+  }
 `
 
 export default function Restaurants({restaurants}) {
   return (
     <RestaurantsStyled>
-      <h2>Restaurant</h2>
+      <h2>Restaurants</h2>
       <div>
         {restaurants.map((restaurant, index) => (
           <Restaurant key={index} name={restaurant.name}/>

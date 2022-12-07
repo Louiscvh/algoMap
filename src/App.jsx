@@ -5,13 +5,21 @@ import { createGlobalStyle } from 'styled-components';
 import { Routes, Route, useParams, BrowserRouter } from 'react-router-dom';
 import Router from './router/Router';
 
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const GlobalStyle = createGlobalStyle`
+
+  html, button, input {
+    font-family: 'Poppins', sans-serif;
+  }
   body {
     margin: 0;
     padding: 0;
   }
 
-  p, h4 {
+  p, h2, h4 {
     margin-block-start: 0em;
     margin-block-end: 0em;
   }

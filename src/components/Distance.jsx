@@ -6,8 +6,12 @@ const DistanceStyle = styled.div`
     bottom: 0.5rem;
     left: 0.5rem;
     z-index: 1;
-    background-color: lightgray;
+    background-color: white;
+    border-radius: 8px;
     padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 `
 export default function Distance({distance}) {
   return (
