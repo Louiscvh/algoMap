@@ -9,11 +9,13 @@ const UserStyled = styled.button`
   will-change: background-color;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #E2E2E2;
+    background-color: #E3E3E3;
   }
 `
-export default function User({name}) {
+
+export default function User({name, userName}) {
+
   return (
-    <UserStyled type='button'>{name}</UserStyled>
+    <UserStyled type='button' style={{backgroundColor: userName === name ? "black" : "#F1F1F1", color: userName === name ? "white" : "black"}}>{name}</UserStyled>
   )
 }

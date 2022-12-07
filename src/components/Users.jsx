@@ -17,13 +17,13 @@ const UsersStyled = styled.section`
     gap: 0.5rem;
   }
 `
-export default function Users({users}) {
+export default function Users({users, userName}) {
   return (
     <UsersStyled>
       <h2>Users</h2>
       <div>
       {users.map((user, index) => (
-        <User key={index} name={user.name}/>
+        <User key={index} name={user.name} userName={userName}/>
       ))}
       </div>
     </UsersStyled>

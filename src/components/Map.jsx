@@ -29,11 +29,13 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentP
         return "blue"    
       case 2:
         return "green"
+      case 3:
+        return "black"
       default:
         break;
     }
   }
-
+  console.log(usersDatas)
   return (
     <MapStyled>
       <MapContainer center={[48.852969, 2.349903]} zoom={13} scrollWheelZoom={true}>

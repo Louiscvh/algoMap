@@ -65,23 +65,23 @@ export default function Room() {
   }
 
   joinRoom()
-   
   useEffect(() => {
-    setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng }]);
-  }, [userName, setUsers])
-
+    if(currentPosition.hasOwnProperty('lat')) {
+        setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: [48.8510502823, 2.3442733454214]}]);
+    }
+  }, [userName, setUsers, currentPosition?.lat, currentPosition?.lng, currentPosition])
 
   return (
     <>
         <Restaurants restaurants={RESTAURANTS_DATAS}/>
         <Map 
             restaurantsDatas={RESTAURANTS_DATAS} 
-            usersDatas={USER_DATAS} 
+            usersDatas={users} 
             currentPosition={currentPosition}
             setCurrentPosition={setCurrentPosition}
             setDistance={setDistance}
             />
-        <Users users={users} />
+        <Users users={users} userName={userName}/>
         <Distance distance={distance}/> 
         <Temps distance={distance}/> 
         <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId}/>
