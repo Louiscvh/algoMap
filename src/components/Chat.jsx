@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import styled from "styled-components"
 
-const socket = io.connect('http://localhost:4001');
+const serverUrl = 'http://localhost:4001/';
+const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const ChatStyle = styled.div`
     position: absolute;

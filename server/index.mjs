@@ -2,13 +2,13 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import router from './router/router.mjs';
-// import cors from 'cors';
+import cors from 'cors';
 
 const port =  4001;
 
 const app = express();
 app.use(router);
-// app.use(cors());
+app.use(cors());
 
 const server = http.createServer(app);
 
