@@ -15,7 +15,7 @@ const ChatStyle = styled.div`
 export default function Chat() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [lastPong, setLastPong] = useState(null);
-
+  const [messages, setMessages] = useState([])
   useEffect(() => {
     socket.on('connect', () => {
       setIsConnected(true);
@@ -53,6 +53,14 @@ export default function Chat() {
       <p>Connected: { '' + isConnected }</p>
       <p>Last pong: { lastPong || '-' }</p>
       <button onClick={ sendPing }>Send ping</button>
+      <div>
+        <h2>Chat</h2>
+        {messages.length ? <div></div> : <p>Pas de messages</p>}
+        <form>
+            <input type="text"></input>
+            <button type='submit'>Envoyer</button>
+        </form>
+      </div>
     </ChatStyle>
   );
 }
