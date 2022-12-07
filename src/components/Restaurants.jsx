@@ -18,13 +18,20 @@ const RestaurantsStyled = styled.section`
   }
 `
 
-export default function Restaurants({restaurants}) {
+export default function Restaurants({restaurants, setUserPoint, userPoint, setUsers, userName, users}) {
   return (
     <RestaurantsStyled>
       <h2>Restaurants</h2>
       <div>
         {restaurants.map((restaurant, index) => (
-          <Restaurant key={index} name={restaurant.name}/>
+          <Restaurant 
+            key={index} 
+            restaurant={restaurant} 
+            userPoint={userPoint} 
+            setUserPoint={setUserPoint} 
+            setUsers={setUsers} 
+            users={users}
+            userName={userName}/>
         ))}
       </div>
     </RestaurantsStyled>

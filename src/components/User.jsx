@@ -5,7 +5,6 @@ const UserStyled = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 150px;
   border: none;
-  cursor: pointer;
   will-change: background-color;
   transition: background-color 0.3s ease;
   &:hover {

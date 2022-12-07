@@ -9,6 +9,8 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export const arrays_equal = (a,b) => !!a && !!b && !(a<b || b<a)
+
 const GlobalStyle = createGlobalStyle`
 
   html, button, input {

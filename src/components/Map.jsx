@@ -1,8 +1,7 @@
-import React, {useRef, useMemo, useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
-import { personIcon, rdvIcon, restaurantIcon } from '../mapIcons';
-import L from 'leaflet'
+import { personIcon, restaurantIcon } from '../mapIcons';
 import LocationMarker from './LocationMarker';
 
 const MapStyled = styled.div`
@@ -14,7 +13,7 @@ const MapStyled = styled.div`
     }
 `
 export default function Map({restaurantsDatas, usersDatas, setDistance, currentPosition, setCurrentPosition}) {
-  const [dragPoint, setDragPoint] = useState(currentPosition)
+  const [dragPoint, setDragPoint] = useState([48.89999, 2.352222])
  
   /**
    * Choose the color of the line
@@ -35,7 +34,6 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentP
         break;
     }
   }
-  console.log(usersDatas)
   return (
     <MapStyled>
       <MapContainer center={[48.852969, 2.349903]} zoom={13} scrollWheelZoom={true}>

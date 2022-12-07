@@ -4,11 +4,12 @@ import Map from '../components/Map';
 import Users from '../components/Users';
 import { useState, useEffect } from 'react';
 import Distance from '../components/Distance';
-import Temps from '../components/Temps';
+import Time from '../components/Time';
 import Chat from '../components/Chat';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../App';
 import io from 'socket.io-client';
+import TravelTime from '../components/TravelTime';
 
 const serverUrl = 'http://localhost:4001/';
 const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket'] });
@@ -57,23 +58,29 @@ export default function Room() {
   const [users, setUsers] = useState(USER_DATAS)
   const [currentPosition, setCurrentPosition] = useState([0, 0])
   let { userName, roomId } = useParams();
-
+  const [userPoint, setUserPoint] = useState([48.8510502823, 2.3442733454214])
   const joinRoom = () => {
     if (userName && roomId) {
         socket.emit('joinRoom', roomId)
     }   
   }
-
+  console.log(userPoint)
   joinRoom()
   useEffect(() => {
     if(currentPosition.hasOwnProperty('lat')) {
-        setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: [48.8510502823, 2.3442733454214]}]);
+        setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: userPoint}]);
     }
   }, [userName, setUsers, currentPosition?.lat, currentPosition?.lng, currentPosition])
 
   return (
     <>
-        <Restaurants restaurants={RESTAURANTS_DATAS}/>
+        <Restaurants 
+          restaurants={RESTAURANTS_DATAS} 
+          userPoint={userPoint} 
+          setUserPoint={setUserPoint} 
+          setUsers={setUsers} 
+          users={users}
+          userName={userName}/>
         <Map 
             restaurantsDatas={RESTAURANTS_DATAS} 
             usersDatas={users} 
@@ -82,8 +89,9 @@ export default function Room() {
             setDistance={setDistance}
             />
         <Users users={users} userName={userName}/>
+        <TravelTime distance={distance}/>
         <Distance distance={distance}/> 
-        <Temps distance={distance}/> 
+        <Time distance={distance}/> 
         <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId}/>
     </>
   )
