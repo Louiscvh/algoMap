@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import styled from "styled-components"
 
-const socket = io();
+const socket = io.connect('http://localhost:4001');
 
 const ChatStyle = styled.div`
     position: absolute;
@@ -25,6 +25,10 @@ export default function Chat() {
       setIsConnected(false);
     });
 
+	socket.on('serverResponse', (res) => {
+		console.log('réponse: ' + res);
+	});
+
     socket.on('pong', () => {
       setLastPong(new Date().toISOString());
     });
@@ -33,11 +37,15 @@ export default function Chat() {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('pong');
+      socket.off('serverResponse');
     };
   }, []);
 
   const sendPing = () => {
-    socket.emit('ping');
+	console.log('coucou')
+    //socket.emit('ping');
+	const message = 'ceci est un message';
+	socket.emit('ping', message);
   }
 
   return (
