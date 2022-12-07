@@ -30,6 +30,11 @@ io.on('connection', (socket) => {
 		const responseMessage = 'message du serveur';
 		socket.emit('serverResponse', responseMessage);
 	});
+
+	socket.on('sendMessage', (msg) => {
+		console.log('ici2', msg)
+		socket.emit('serverMessage', msg);
+	});
 });
 
 // })();

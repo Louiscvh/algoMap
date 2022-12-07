@@ -17,6 +17,8 @@ export default function Chat() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [lastPong, setLastPong] = useState(null);
   const [messages, setMessages] = useState([])
+  const [currentMessage, setCurrentMessage] = useState("")
+
   useEffect(() => {
     socket.on('connect', () => {
       setIsConnected(true);
@@ -30,6 +32,10 @@ export default function Chat() {
 		console.log('réponse: ' + res);
 	});
 
+    socket.on('serverMessage', (res) => {
+		console.log(res)
+	});
+
     socket.on('pong', () => {
       setLastPong(new Date().toISOString());
     });
@@ -38,6 +44,7 @@ export default function Chat() {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('pong');
+      socket.off('serverMessage');
       socket.off('serverResponse');
     };
   }, []);
@@ -49,6 +56,16 @@ export default function Chat() {
 	socket.emit('ping', message);
   }
 
+  /**
+   * Send a message to chat
+   * @param {String} message 
+   */
+  const sendMessage = (e) => {
+    e.preventDefault()
+    console.log('ici', currentMessage)
+    socket.emit('sendMessage', currentMessage);
+  }
+
   return (
     <ChatStyle>
       <p>Connected: { '' + isConnected }</p>
@@ -57,8 +74,8 @@ export default function Chat() {
       <div>
         <h2>Chat</h2>
         {messages.length ? <div></div> : <p>Pas de messages</p>}
-        <form>
-            <input type="text"></input>
+        <form onSubmit={(e) => sendMessage(e)}>
+            <input type="text" value={currentMessage} onChange={(e) => setCurrentMessage(e.target.value)}></input>
             <button type='submit'>Envoyer</button>
         </form>
       </div>
