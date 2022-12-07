@@ -18,20 +18,19 @@ server.listen(port, () => {
 
 const io = new Server(server);
 
-// (async () => {
 
-// setup command listeners once client is connected
 io.on('connection', (socket) => {
-	// console.log('socket:', socket)
-	console.log(`⚡: ${socket.id} user just connected!`);
+	socket.on('joinRoom', (roomId) => {
+		console.log(socket.id + ' avez rejoins la room ' + roomId)
+		socket.join(roomId)
+	});
 
 	socket.on('sendMessage', (msg) => {
-		socket.emit('serverMessage', msg);
+		console.log(msg)
+		socket.to(msg.roomId).emit('receive_message', msg);
 	});
 
 	socket.on('disconnect', () => {
 		console.log('🔥: A user disconnected');
 	});
 });
-
-// })();

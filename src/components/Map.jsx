@@ -13,15 +13,9 @@ const MapStyled = styled.div`
       height: 100vh;
     }
 `
-export default function Map({restaurantsDatas, usersDatas, setDistance, currentUserName, setUsers}) {
-  const [currentPosition, setCurrentPosition] = useState([0, 0])
+export default function Map({restaurantsDatas, usersDatas, setDistance, currentPosition, setCurrentPosition}) {
   const [dragPoint, setDragPoint] = useState(currentPosition)
-  
-  useEffect(() => {
-    if(currentPosition)
-      setUsers(current => [...current, {name: currentUserName, lat: currentPosition?.lat, lon: currentPosition?.lng }]);
-  }, [currentUserName, setUsers, usersDatas, currentPosition])
-
+ 
   /**
    * Choose the color of the line
    * @param {Int} index 

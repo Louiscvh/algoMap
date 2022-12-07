@@ -7,6 +7,10 @@ import Distance from '../components/Distance';
 import Chat from '../components/Chat';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../App';
+import io from 'socket.io-client';
+
+const serverUrl = 'http://localhost:4001/';
+const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const RESTAURANTS_DATAS = [
   {
@@ -46,10 +50,25 @@ const USER_DATAS = [
       point: [48.85277, 2.3575]
   },
 ];
+
 export default function Room() {
   const [distance, setDistance] = useState(0)
   const [users, setUsers] = useState(USER_DATAS)
-  let { userName } = useParams();
+  const [currentPosition, setCurrentPosition] = useState([0, 0])
+  let { userName, roomId } = useParams();
+
+  const joinRoom = () => {
+    if (userName && roomId) {
+        socket.emit('joinRoom', roomId)
+    }   
+  }
+
+  joinRoom()
+   
+  useEffect(() => {
+    setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng }]);
+  }, [userName, setUsers])
+
 
   return (
     <>
@@ -57,12 +76,13 @@ export default function Room() {
         <Map 
             restaurantsDatas={RESTAURANTS_DATAS} 
             usersDatas={USER_DATAS} 
+            currentPosition={currentPosition}
+            setCurrentPosition={setCurrentPosition}
             setDistance={setDistance} 
-            currentUserName={capitalizeFirstLetter(userName)} 
-            setUsers={setUsers}/>
+            />
         <Users users={users} />
         <Distance distance={distance}/> 
-        <Chat currentUserName={capitalizeFirstLetter(userName)}/>
+        <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId}/>
     </>
   )
 }

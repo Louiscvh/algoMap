@@ -45,27 +45,35 @@ const ChatStyle = styled.div`
         }
     }
 `
-export default function Chat({currentUserName}) {
+export default function Chat({currentUserName, roomId}) {
   const [messages, setMessages] = useState([])
-  const [currentMessage, setCurrentMessage] = useState("")
+  const [currentText, setCurrentText] = useState("")
   const lastMessageRef = useRef(null);
 
   useEffect(() => {
-    socket.on('serverMessage', (data) => {
-        setMessages([...messages, {user: currentUserName, message: data}])
+    socket.emit('joinRoom', roomId)
+    socket.on('receive_message', (data) => {
+      setMessages(messages => [...messages, data])
     });
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [socket, messages]);
+  }, [socket]);
 
   /**
    * Send a message to chat
    * @param {String} message 
    */
-  const sendMessage = (e) => {
+  const sendMessage = async(e) => {
     e.preventDefault()
-    if(currentMessage.trim()) {
+    if(currentText.trim()) {
+      const currentMessage = {
+        user: currentUserName,
+        roomId,
+        message: currentText
+      }
+      setMessages(messages => [...messages, currentMessage])
       socket.emit('sendMessage', currentMessage);
-      setCurrentMessage('')
+
+      setCurrentText('')
     }
   }
 
@@ -84,7 +92,7 @@ export default function Chat({currentUserName}) {
         </div> 
           
         <form onSubmit={(e) => sendMessage(e)}>
-            <input type="text" value={currentMessage} onChange={(e) => setCurrentMessage(e.target.value)}></input>
+            <input type="text" value={currentText} onChange={(e) => setCurrentText(e.target.value)}></input>
             <button type='submit'>Envoyer</button>
         </form>
       </div>
