@@ -4,6 +4,7 @@ import Map from '../components/Map';
 import Users from '../components/Users';
 import { useState, useEffect } from 'react';
 import Distance from '../components/Distance';
+import Temps from '../components/Temps';
 import Chat from '../components/Chat';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../App';
@@ -78,10 +79,11 @@ export default function Room() {
             usersDatas={USER_DATAS} 
             currentPosition={currentPosition}
             setCurrentPosition={setCurrentPosition}
-            setDistance={setDistance} 
+            setDistance={setDistance}
             />
         <Users users={users} />
         <Distance distance={distance}/> 
+        <Temps distance={distance}/> 
         <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId}/>
     </>
   )
