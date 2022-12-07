@@ -55,8 +55,11 @@ export default function Chat({currentUserName, roomId}) {
     socket.on('receive_message', (data) => {
       setMessages(messages => [...messages, data])
     });
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [socket]);
+
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages])
 
   /**
    * Send a message to chat
