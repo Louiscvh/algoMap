@@ -12,7 +12,6 @@ export default function LocationMarker({setCurrentPosition}) {
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
         setPosition(e.latlng);
-        console.log(e.latlng)
         setCurrentPosition(e.latlng)
         map.flyTo(e.latlng, map.getZoom());
         const radius = e.accuracy;

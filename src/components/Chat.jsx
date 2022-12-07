@@ -12,49 +12,23 @@ const ChatStyle = styled.div`
     z-index: 1;
     background-color: lightgray;
     padding: 1rem;
+
+    #chat {
+        height: 200px;
+        overflow-y: scroll;
+        background-color: white;
+        padding: 0.5rem;
+    }
 `
-export default function Chat() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [lastPong, setLastPong] = useState(null);
+export default function Chat({currentUserName}) {
   const [messages, setMessages] = useState([])
   const [currentMessage, setCurrentMessage] = useState("")
 
   useEffect(() => {
-    socket.on('connect', () => {
-      setIsConnected(true);
+    socket.on('serverMessage', (data) => {
+        setMessages([...messages, {user: currentUserName, message: data}])
     });
-
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-    });
-
-	socket.on('serverResponse', (res) => {
-		console.log('réponse: ' + res);
-	});
-
-    socket.on('serverMessage', (res) => {
-		console.log(res)
-	});
-
-    socket.on('pong', () => {
-      setLastPong(new Date().toISOString());
-    });
-
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('pong');
-      socket.off('serverMessage');
-      socket.off('serverResponse');
-    };
-  }, []);
-
-  const sendPing = () => {
-	console.log('coucou')
-    //socket.emit('ping');
-	const message = 'ceci est un message';
-	socket.emit('ping', message);
-  }
+  }, [socket, messages]);
 
   /**
    * Send a message to chat
@@ -62,18 +36,26 @@ export default function Chat() {
    */
   const sendMessage = (e) => {
     e.preventDefault()
-    console.log('ici', currentMessage)
     socket.emit('sendMessage', currentMessage);
+    setCurrentMessage('')
   }
 
   return (
     <ChatStyle>
-      <p>Connected: { '' + isConnected }</p>
-      <p>Last pong: { lastPong || '-' }</p>
-      <button onClick={ sendPing }>Send ping</button>
       <div>
         <h2>Chat</h2>
-        {messages.length ? <div></div> : <p>Pas de messages</p>}
+        {messages.length ? 
+            <div id="chat">
+                {messages.map((message, index) => (
+                    <div key={index}> 
+                        <h4>{message.user}</h4>
+                        <p>{message.message}</p>
+                    </div>
+                ))}
+            </div> 
+            : 
+            <p>Pas de messages</p>
+        }
         <form onSubmit={(e) => sendMessage(e)}>
             <input type="text" value={currentMessage} onChange={(e) => setCurrentMessage(e.target.value)}></input>
             <button type='submit'>Envoyer</button>

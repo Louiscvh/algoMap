@@ -58,7 +58,7 @@ export default function Room() {
             setUsers={setUsers}/>
         <Users users={users} roomId={roomId} />
         <Distance distance={distance}/> 
-        <Chat />
+        <Chat currentUserName={userName}/>
     </>
   )
 }

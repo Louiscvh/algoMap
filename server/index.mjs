@@ -23,7 +23,7 @@ const io = new Server(server);
 // setup command listeners once client is connected
 io.on('connection', (socket) => {
 	// console.log('socket:', socket)
-	console.log('new client connected');
+	console.log(`⚡: ${socket.id} user just connected!`);
 
 	socket.on('ping', (msg) => {
 		console.log('message: ' + msg);
@@ -32,8 +32,11 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('sendMessage', (msg) => {
-		console.log('ici2', msg)
 		socket.emit('serverMessage', msg);
+	});
+
+	socket.on('disconnect', () => {
+		console.log('🔥: A user disconnected');
 	});
 });
 
