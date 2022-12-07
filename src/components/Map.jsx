@@ -14,44 +14,9 @@ const MapStyled = styled.div`
     }
 `
 export default function Map({restaurantsDatas, usersDatas, setDistance, currentUserName, setUsers}) {
-
-  const [dragPoint, setDragPoint] = useState([48.858519522442, 2.3471194010479])
-	const center = {
-		lat: 48.852969,
-		lng:  2.349903,
-	};
-
-  const polyline = [
-    [48.858519522442, 2.3471194010479],
-    dragPoint,
-  ]
-
-  let nico = usersDatas.find(user => user.name = "nico")
-
-  const [position, setPosition] = useState(center)
   const [currentPosition, setCurrentPosition] = useState([0, 0])
-  const markerRef = useRef();
-
-  const nicoPos = [
-    [nico.lat, nico.lon],
-    nico.point,
-    currentPosition,
-  ]
-
-
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const fromLatLng = L.latLng([48.858519522442, 2.3471194010479]);
-        const toLatLng = L.latLng([markerRef.current.getLatLng().lat, markerRef.current.getLatLng().lng]);
-        const distance = fromLatLng.distanceTo(toLatLng)
-        setDragPoint(toLatLng)
-        setDistance(distance)
-      },
-    }),
-    [setDistance],
-  )
-
+  const [dragPoint, setDragPoint] = useState(currentPosition)
+  
   useEffect(() => {
     if(currentPosition)
       setUsers(current => [...current, {name: currentUserName, lat: currentPosition?.lat, lon: currentPosition?.lng }]);
@@ -96,15 +61,13 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
             </Popup>
           </Marker>
         ))}
-        <Marker icon={rdvIcon} position={position} eventHandlers={eventHandlers} ref={markerRef} draggable={true}>
-          <Popup>
-            Rdv point
-          </Popup>
-        </Marker>
-        <LocationMarker setCurrentPosition={setCurrentPosition}/>
-        <Polyline pathOptions={{ color: 'red', dashArray: '20, 20', dashOffset: '20'}} positions={polyline} />
+        <LocationMarker 
+          currentPosition={currentPosition} 
+          setCurrentPosition={setCurrentPosition} 
+          setDistance={setDistance} 
+          setDragPoint={setDragPoint}/>
         {usersDatas.map((user, index) => (
-          <Polyline key={index} pathOptions={{ color: getStrokeColor(index), dashArray: '20, 20', dashOffset: '20'}} positions={[[user.lat, user.lon], user.point, currentPosition]} />
+          <Polyline key={index} pathOptions={{ color: getStrokeColor(index), dashArray: '20, 20', dashOffset: '20'}} positions={[[user.lat, user.lon], user.point, dragPoint]} />
         ))}
       </MapContainer>
     </MapStyled>

@@ -49,7 +49,7 @@ export default function Room() {
   const [distance, setDistance] = useState(0)
   const [users, setUsers] = useState(USER_DATAS)
   let { userName, roomId } = useParams();
-
+    
   return (
     <>
         <Restaurants restaurants={RESTAURANTS_DATAS}/>
