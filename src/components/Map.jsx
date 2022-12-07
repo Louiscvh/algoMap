@@ -27,8 +27,6 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
   ]
 
   let nico = usersDatas.find(user => user.name = "nico")
-  console.log(nico)
-  const limeOptions = { color: 'red' }
 
   const [position, setPosition] = useState(center)
   const [currentPosition, setCurrentPosition] = useState([0, 0])
@@ -59,6 +57,24 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
       setUsers(current => [...current, {name: currentUserName, lat: currentPosition?.lat, lon: currentPosition?.lng }]);
   }, [currentUserName, setUsers, usersDatas, currentPosition])
 
+  /**
+   * Choose the color of the line
+   * @param {Int} index 
+   * @returns 
+   */
+  const getStrokeColor = (index) => {
+    switch (index) {
+      case 0:
+        return "red"
+      case 1:
+        return "blue"    
+      case 2:
+        return "green"
+      default:
+        break;
+    }
+  }
+
   return (
     <MapStyled>
       <MapContainer center={[48.852969, 2.349903]} zoom={13} scrollWheelZoom={true}>
@@ -86,9 +102,9 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
           </Popup>
         </Marker>
         <LocationMarker setCurrentPosition={setCurrentPosition}/>
-        <Polyline pathOptions={limeOptions} positions={polyline} />
+        <Polyline pathOptions={{ color: 'red', dashArray: '20, 20', dashOffset: '20'}} positions={polyline} />
         {usersDatas.map((user, index) => (
-          <Polyline key={index} pathOptions={limeOptions} positions={[[user.lat, user.lon], user.point, currentPosition]} />
+          <Polyline key={index} pathOptions={{ color: getStrokeColor(index), dashArray: '20, 20', dashOffset: '20'}} positions={[[user.lat, user.lon], user.point, currentPosition]} />
         ))}
       </MapContainer>
     </MapStyled>
