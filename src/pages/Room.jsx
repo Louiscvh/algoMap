@@ -29,17 +29,20 @@ const USER_DATAS = [
   {
       name: "Nico",
       lat: 48.8527749863,
-      lon: 2.3353216052055
+      lon: 2.3353216052055,
+      point: [48.856389, 2.352222]
   },
   {
       name: "Alex",
       lat: 48.858519522442,
-      lon: 2.3471194010479
+      lon: 2.3471194010479,
+      point: [48.8510502823, 2.3442733454214]
   },
   {
       name: "Chachat",
       lat: 48.8593,
-      lon: 2.3561
+      lon: 2.3561,
+      point: [48.85277, 2.3575]
   },
 ];
 export default function Room() {

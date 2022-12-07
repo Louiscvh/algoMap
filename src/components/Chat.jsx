@@ -30,6 +30,7 @@ export default function Chat({currentUserName}) {
     });
   }, [socket, messages]);
 
+  console.log(messages)
   /**
    * Send a message to chat
    * @param {String} message 

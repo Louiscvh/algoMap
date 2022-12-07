@@ -26,11 +26,20 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
     dragPoint,
   ]
 
+  let nico = usersDatas.find(user => user.name = "nico")
+  console.log(nico)
   const limeOptions = { color: 'red' }
 
   const [position, setPosition] = useState(center)
-  const [currentPosition, setCurrentPosition] = useState(null)
+  const [currentPosition, setCurrentPosition] = useState([0, 0])
   const markerRef = useRef();
+
+  const nicoPos = [
+    [nico.lat, nico.lon],
+    nico.point,
+    currentPosition,
+  ]
+
 
   const eventHandlers = useMemo(
     () => ({
@@ -78,6 +87,9 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentU
         </Marker>
         <LocationMarker setCurrentPosition={setCurrentPosition}/>
         <Polyline pathOptions={limeOptions} positions={polyline} />
+        {usersDatas.map((user, index) => (
+          <Polyline key={index} pathOptions={limeOptions} positions={[[user.lat, user.lon], user.point, currentPosition]} />
+        ))}
       </MapContainer>
     </MapStyled>
   )

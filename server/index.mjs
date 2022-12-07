@@ -25,12 +25,6 @@ io.on('connection', (socket) => {
 	// console.log('socket:', socket)
 	console.log(`⚡: ${socket.id} user just connected!`);
 
-	socket.on('ping', (msg) => {
-		console.log('message: ' + msg);
-		const responseMessage = 'message du serveur';
-		socket.emit('serverResponse', responseMessage);
-	});
-
 	socket.on('sendMessage', (msg) => {
 		socket.emit('serverMessage', msg);
 	});
