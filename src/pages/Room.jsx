@@ -3,13 +3,11 @@ import Restaurants from '../components/Restaurants';
 import Map from '../components/Map';
 import Users from '../components/Users';
 import { useState, useEffect } from 'react';
-import Distance from '../components/Distance';
-import Time from '../components/Time';
 import Chat from '../components/Chat';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../App';
 import io from 'socket.io-client';
-import TravelTime from '../components/TravelTime';
+  import Stats from '../components/Stats';
 
 const serverUrl = 'http://localhost:4001/';
 const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket'] });
@@ -101,12 +99,10 @@ export default function Room() {
             currentPosition={currentPosition}
             setCurrentPosition={setCurrentPosition}
             setDistance={setDistance}
-			userPoint={userPoint}
+			      userPoint={userPoint}
             />
         <Users users={users} userName={userName}/>
-        <TravelTime distance={distance} rdvHours={rdvHours}/>
-        <Distance distance={distance}/> 
-        <Time distance={distance}/> 
+        <Stats distance={distance} rdvHours={rdvHours} />
         <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId} setRdvHours={setRdvHours}/>
     </>
   )
