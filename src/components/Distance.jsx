@@ -17,7 +17,7 @@ export default function Distance({distance}) {
   return (
     <DistanceStyle>
         <h2>Votre distance</h2>
-        <p>{Math.round(distance)} mètres</p>
+        <p>{distance < 1000 ? `${Math.round(distance)} mètres` : `${(distance /1000).toFixed(2)} km` }</p>
     </DistanceStyle>
   )
 }
