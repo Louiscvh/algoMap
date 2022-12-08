@@ -12,7 +12,7 @@ export default function LocationMarker({currentPosition, setCurrentPosition, set
       dragend() {
         console.log(currentPosition)
         const user = L.latLng([currentPosition?.lat, currentPosition?.lng]);
-		const restau = L.latLng(userPoint);
+		    const restau = L.latLng(userPoint);
         console.log('restau:', restau)
         const rdv = L.latLng([markerRef.current.getLatLng().lat, markerRef.current.getLatLng().lng]);
         const distance = user.distanceTo(restau) + restau.distanceTo(rdv)
