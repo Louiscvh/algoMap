@@ -12,7 +12,7 @@ const MapStyled = styled.div`
       height: 100vh;
     }
 `
-export default function Map({restaurantsDatas, usersDatas, setDistance, currentPosition, setCurrentPosition}) {
+export default function Map({restaurantsDatas, usersDatas, setDistance, currentPosition, setCurrentPosition, userPoint}) {
   const [dragPoint, setDragPoint] = useState([48.89999, 2.352222])
   /**
    * Choose the color of the line
@@ -58,7 +58,9 @@ export default function Map({restaurantsDatas, usersDatas, setDistance, currentP
           currentPosition={currentPosition} 
           setCurrentPosition={setCurrentPosition} 
           setDistance={setDistance} 
-          setDragPoint={setDragPoint}/>
+          setDragPoint={setDragPoint}
+		  userPoint={userPoint}
+		  />
         {usersDatas.map((user, index) => (
           <Polyline key={index} pathOptions={{ color: getStrokeColor(index), dashArray: '20, 20', dashOffset: '20'}} positions={[[user.lat, user.lon], user.point, dragPoint]} />
         ))}

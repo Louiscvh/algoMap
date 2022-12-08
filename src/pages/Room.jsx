@@ -101,6 +101,7 @@ export default function Room() {
             currentPosition={currentPosition}
             setCurrentPosition={setCurrentPosition}
             setDistance={setDistance}
+			userPoint={userPoint}
             />
         <Users users={users} userName={userName}/>
         <TravelTime distance={distance} rdvHours={rdvHours}/>

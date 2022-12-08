@@ -14,7 +14,7 @@ const TravelStyle = styled.div`
     align-items: center;
 `
 export default function TravelTime({distance, rdvHours}) {
-    const time = distance / 83.3 
+    const time = distance / 83.3 // 83.3m/min = 5km/h
     const hour = rdvHours * 60
   return (
     <TravelStyle>
