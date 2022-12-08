@@ -16,16 +16,19 @@ const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket
 
 const RESTAURANTS_DATAS = [
   {
+      id: 1,
       name: "Restaurant de la Sorbone",
       lat: 48.8510502823,
       lon: 2.3442733454214
   },
   {
+      id: 2,
       name: "Restaurant de l'Hotel de ville",
       lat: 48.856389,
       lon: 2.352222
   },
   {
+      id: 3,
       name: "Restaurant du Pont",
       lat: 48.85277,
       lon: 2.3575
@@ -59,18 +62,25 @@ export default function Room() {
   const [currentPosition, setCurrentPosition] = useState([0, 0])
   let { userName, roomId } = useParams();
   const [userPoint, setUserPoint] = useState([48.8510502823, 2.3442733454214])
-  const joinRoom = () => {
-    if (userName && roomId) {
-        socket.emit('joinRoom', roomId)
-    }   
-  }
+  const [currentRestaurant, setCurrentRestaurant] = useState({
+    id: 1,
+    name: "Restaurant de la Sorbone",
+    lat: 48.8510502823,
+    lon: 2.3442733454214
+  })
   console.log(userPoint)
-  joinRoom()
   useEffect(() => {
-    if(currentPosition.hasOwnProperty('lat')) {
-        setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: userPoint}]);
+    const joinRoom = () => {
+      if (userName && roomId) {
+          socket.emit('joinRoom', roomId, null)
+      }   
     }
-  }, [userName, setUsers, currentPosition?.lat, currentPosition?.lng, currentPosition])
+
+    if(currentPosition.hasOwnProperty('lat')) {
+      joinRoom()
+      setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: userPoint}]);
+    }
+  }, [userName, setUsers, currentPosition?.lat, currentPosition?.lng, currentPosition, roomId])
 
   return (
     <>
@@ -80,7 +90,10 @@ export default function Room() {
           setUserPoint={setUserPoint} 
           setUsers={setUsers} 
           users={users}
-          userName={userName}/>
+          userName={userName}
+          setCurrentRestaurant={setCurrentRestaurant}
+          currentRestaurant={currentRestaurant}
+          />
         <Map 
             restaurantsDatas={RESTAURANTS_DATAS} 
             usersDatas={users} 

@@ -18,10 +18,13 @@ server.listen(port, () => {
 
 const io = new Server(server);
 
+let clients = [];
 
 io.on('connection', (socket) => {
-	socket.on('joinRoom', (roomId) => {
-		console.log(socket.id + ' avez rejoins la room ' + roomId)
+	socket.on('joinRoom', (roomId, userName) => {
+		if(userName) {
+			console.log(userName + ' a rejoins la room ' + roomId)
+		}
 		socket.join(roomId)
 	});
 

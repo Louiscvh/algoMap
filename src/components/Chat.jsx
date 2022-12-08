@@ -51,11 +51,11 @@ export default function Chat({currentUserName, roomId}) {
   const lastMessageRef = useRef(null);
 
   useEffect(() => {
-    socket.emit('joinRoom', roomId)
+    socket.emit('joinRoom', roomId, currentUserName)
     socket.on('receive_message', (data) => {
       setMessages(messages => [...messages, data])
     });
-  }, [socket]);
+  }, [currentUserName, roomId]);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });

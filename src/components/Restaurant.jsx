@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { arrays_equal } from '../App'
 
 const RestaurantStyled = styled.button`
   padding: 0.5rem 1rem;
@@ -13,27 +12,23 @@ const RestaurantStyled = styled.button`
     background-color: #E2E2E2;
   }
 `
-export default function Restaurant({restaurant, setUserPoint, userPoint, setUsers, userName, users}) {
-  const restaurantPoint = [restaurant.lat, restaurant.lon]
-  console.log(users)
-  const handleSetPoint = () => {
+export default function Restaurant({restaurant, setUserPoint, setUsers, userName, users, setCurrentRestaurant, currentRestaurant}) {
+
+  const handleUpdateRestaurant = () => {
     setUserPoint([restaurant.lat, restaurant.lon])
+    
+    setCurrentRestaurant(restaurant)
+    const newUsers = users.map((user) => {
+    if (user.name === userName) {
+      return {...user, point: [restaurant.lat, restaurant.lon]};
+    }
+      return user;
+    });
 
-    setUsers(prevState => {
-      const newState = prevState.map(user => {
-        console.log(user, userName)
-        if(users.name === userName) {
-          return {...user, point: userPoint}
-        }
-        return user
-      })
-      return newState
-    })
-    
-    
+    setUsers(newUsers);
   }
-
+  
   return (
-    <RestaurantStyled type="button" style={{ backgroundColor: arrays_equal(userPoint, restaurantPoint) ? "black" : "#F1F1F1", color: arrays_equal(userPoint, restaurantPoint) ? "white" : "black"}} onClick={handleSetPoint}>{restaurant.name}</RestaurantStyled>
+    <RestaurantStyled type="button" style={{ backgroundColor: currentRestaurant.id === restaurant.id ? "black" : "#F1F1F1", color: currentRestaurant.id === restaurant.id ? "white" : "black"}} onClick={handleUpdateRestaurant}>{restaurant.name}</RestaurantStyled>
   )
 }

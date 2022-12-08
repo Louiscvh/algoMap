@@ -18,7 +18,7 @@ const RestaurantsStyled = styled.section`
   }
 `
 
-export default function Restaurants({restaurants, setUserPoint, userPoint, setUsers, userName, users}) {
+export default function Restaurants({restaurants, setUserPoint, userPoint, setUsers, userName, users, setCurrentRestaurant, currentRestaurant}) {
   return (
     <RestaurantsStyled>
       <h2>Restaurants</h2>
@@ -31,7 +31,10 @@ export default function Restaurants({restaurants, setUserPoint, userPoint, setUs
             setUserPoint={setUserPoint} 
             setUsers={setUsers} 
             users={users}
-            userName={userName}/>
+            userName={userName}
+            setCurrentRestaurant={setCurrentRestaurant}
+            currentRestaurant={currentRestaurant}
+            />
         ))}
       </div>
     </RestaurantsStyled>

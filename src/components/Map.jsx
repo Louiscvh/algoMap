@@ -14,7 +14,6 @@ const MapStyled = styled.div`
 `
 export default function Map({restaurantsDatas, usersDatas, setDistance, currentPosition, setCurrentPosition}) {
   const [dragPoint, setDragPoint] = useState([48.89999, 2.352222])
- 
   /**
    * Choose the color of the line
    * @param {Int} index 
