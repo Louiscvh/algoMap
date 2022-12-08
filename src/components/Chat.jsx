@@ -45,7 +45,7 @@ const ChatStyle = styled.div`
         }
     }
 `
-export default function Chat({currentUserName, roomId}) {
+export default function Chat({currentUserName, roomId, setRdvHours}) {
   const [messages, setMessages] = useState([])
   const [currentText, setCurrentText] = useState("")
   const lastMessageRef = useRef(null);
@@ -55,7 +55,11 @@ export default function Chat({currentUserName, roomId}) {
     socket.on('receive_message', (data) => {
       setMessages(messages => [...messages, data])
     });
-  }, [currentUserName, roomId]);
+	socket.on('changeHours', newHours => {
+		console.log('newHours:', newHours);
+		setRdvHours(newHours)
+	})
+  }, [currentUserName, roomId, setRdvHours]);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });

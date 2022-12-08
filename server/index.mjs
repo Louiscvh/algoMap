@@ -44,6 +44,8 @@ io.on('connection', (socket) => {
 			const extractedHours = parseInt(hours[0].replace(/#/g, '')); // ex: replace # by nothing and convert string to number
 			console.log('extractedHours:', extractedHours);
 
+			socket.emit('changeHours', extractedHours)
+
 		}
 	});
 

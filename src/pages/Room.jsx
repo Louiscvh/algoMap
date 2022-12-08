@@ -58,6 +58,7 @@ const USER_DATAS = [
 
 export default function Room() {
   const [distance, setDistance] = useState(0)
+  const [rdvHours, setRdvHours] = useState(15)
   const [users, setUsers] = useState(USER_DATAS)
   const [currentPosition, setCurrentPosition] = useState([0, 0])
   let { userName, roomId } = useParams();
@@ -102,10 +103,10 @@ export default function Room() {
             setDistance={setDistance}
             />
         <Users users={users} userName={userName}/>
-        <TravelTime distance={distance}/>
+        <TravelTime distance={distance} rdvHours={rdvHours}/>
         <Distance distance={distance}/> 
         <Time distance={distance}/> 
-        <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId}/>
+        <Chat currentUserName={capitalizeFirstLetter(userName)} roomId={roomId} setRdvHours={setRdvHours}/>
     </>
   )
 }

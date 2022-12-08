@@ -13,11 +13,12 @@ const TravelStyle = styled.div`
     gap: 1rem;
     align-items: center;
 `
-export default function TravelTime({distance}) {
+export default function TravelTime({distance, rdvHours}) {
     const time = distance / 83.3 
-    const hour = 15 * 60
+    const hour = rdvHours * 60
   return (
     <TravelStyle>
+		<h2>Miam à {hour / 60}h</h2>
         <h2>Partez à</h2>
         <p>{Math.round((hour - time) / 60)}h</p>
     </TravelStyle>
