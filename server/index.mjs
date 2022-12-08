@@ -36,12 +36,12 @@ io.on('connection', (socket) => {
 
 		if(specificMessage.includes('#')) {
 			console.log('message clé');
-			const regex = /#(\d+)/gm; // get value after the #
+			const regex = /#(\d+)/gm; // avoir le texte après le #
 
 			const hours = specificMessage.match(regex);
 			console.log('hours:', hours); // [hours]
 
-			const extractedHours = parseInt(hours[0].replace(/#/g, '')); // ex: replace # by nothing and convert string to number
+			const extractedHours = parseInt(hours[0].replace(/#/g, '')); // ex: remplace # par rien et avoir un string en number
 			console.log('extractedHours:', extractedHours);
 
 			socket.emit('changeHours', extractedHours)

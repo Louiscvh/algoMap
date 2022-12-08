@@ -16,7 +16,7 @@ export default function Stats({distance, rdvHours}) {
     const kmh = distance / 83.3
     const time = `${Math.round(kmh)} ${kmh > 1 ? "mins" : "min"}`
     const distanceMeter = distance < 1000 ? `${Math.round(distance)} mètres` : `${(distance /1000).toFixed(2)} km` 
-	const travel = `${Math.round(time)} ${time > 1 ? "mins" : "min"}`
+	// const travel = `${Math.round(time)} ${time > 1 ? "mins" : "min"}`
     const rdv = `À ${rdvHours}h`
     const hour = rdvHours * 60
     const hourDisplay = `À ${Math.round((hour - kmh) / 60)}h`
