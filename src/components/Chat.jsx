@@ -49,10 +49,12 @@ export default function Chat({currentUserName, roomId, setRdvHours}) {
   const [messages, setMessages] = useState([])
   const [currentText, setCurrentText] = useState("")
   const lastMessageRef = useRef(null);
+  const myMessage = useRef(null)
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, currentUserName)
     socket.on('receive_message', (data) => {
+		console.log('ici')
       setMessages(messages => [...messages, data])
     });
 	socket.on('changeHours', newHours => {
@@ -60,7 +62,6 @@ export default function Chat({currentUserName, roomId, setRdvHours}) {
 		setRdvHours(newHours)
 	})
   }, [currentUserName, roomId, setRdvHours]);
-
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages])
@@ -80,6 +81,23 @@ export default function Chat({currentUserName, roomId, setRdvHours}) {
       setMessages(messages => [...messages, currentMessage])
       socket.emit('sendMessage', currentMessage);
 
+	//   if(currentMessage.user === currentUserName) {
+	// 	console.log('myMessage', myMessage)
+	// 	myMessage.current.style.textAlign = "right";
+	//   }
+
+	  if(currentText.includes('#')) {
+		console.log('message clé');
+		const regex = /#(\d+)/gm; // avoir le texte après le #
+
+		const hours = currentText.match(regex);
+		console.log('hours:', hours); // [hours]
+
+		const extractedHours = parseInt(hours[0].replace(/#/g, '')); // remplace # par rien et avoir un string en number
+		console.log('extractedHours:', extractedHours);
+		setRdvHours(extractedHours);
+
+	}
       setCurrentText('')
     }
   }
@@ -90,7 +108,7 @@ export default function Chat({currentUserName, roomId, setRdvHours}) {
         <h2>Chat</h2>
         <div id="chat">
             {messages.map((message, index) => (
-              <div key={index}> 
+              <div key={index} ref={myMessage}> 
                 <h4>{message.user}</h4>
                 <p>{message.message}</p>
               </div>

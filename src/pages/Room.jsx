@@ -67,7 +67,7 @@ export default function Room() {
     lat: 48.8510502823,
     lon: 2.3442733454214
   })
-  console.log(userPoint)
+  console.log(rdvHours)
   useEffect(() => {
     const joinRoom = () => {
       if (userName && roomId) {
