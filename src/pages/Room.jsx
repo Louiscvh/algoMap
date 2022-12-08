@@ -11,7 +11,7 @@ import { capitalizeFirstLetter } from '../App';
 import io from 'socket.io-client';
 import TravelTime from '../components/TravelTime';
 
-const serverUrl = '/';
+const serverUrl = 'http://localhost:4001/';
 const socket = io(serverUrl, { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const RESTAURANTS_DATAS = [
