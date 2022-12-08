@@ -79,7 +79,7 @@ export default function Room() {
 
     if(currentPosition.hasOwnProperty('lat')) {
       joinRoom()
-      setUsers(current => [...current, {name: capitalizeFirstLetter(userName), lat: currentPosition?.lat, lon: currentPosition?.lng , point: userPoint}]);
+      setUsers(current => [...current, {name: userName, lat: currentPosition?.lat, lon: currentPosition?.lng , point: userPoint}]);
     }
   }, [userName, setUsers, currentPosition?.lat, currentPosition?.lng, currentPosition, roomId])
 

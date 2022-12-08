@@ -13,15 +13,13 @@ const RestaurantStyled = styled.button`
   }
 `
 export default function Restaurant({restaurant, setUserPoint, setUsers, userName, users, setCurrentRestaurant, currentRestaurant}) {
-
   const handleUpdateRestaurant = () => {
     setUserPoint([restaurant.lat, restaurant.lon])
-    
     setCurrentRestaurant(restaurant)
     const newUsers = users.map((user) => {
-    if (user.name === userName) {
-      return {...user, point: [restaurant.lat, restaurant.lon]};
-    }
+      if (user.name === userName) {
+        return {...user, point: [restaurant.lat, restaurant.lon]};
+      }
       return user;
     });
 
